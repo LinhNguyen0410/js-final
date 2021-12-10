@@ -29,3 +29,5 @@ serve : review kết quả build đươc từ folder _dist_
 ## CDN
 
 > content delivery network
+
+## bài 233 chỉ xài git
