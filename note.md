@@ -30,4 +30,4 @@ serve : review kết quả build đươc từ folder _dist_
 
 > content delivery network
 
-## bài 233 chỉ xài git
+## bài 232, 233 chỉ xài git
