@@ -57,3 +57,21 @@ serve : review kết quả build đươc từ folder _dist_
 _thứ tự n như sau : main.js <- postApi.js <- axiosClient_
 
 > thằng cha đi xuống thằng con , thằng con có lỗi thì nó throw error lên cho thằng cha , thằng cha mà nó dùng try catch catch lại thì n dừng ở đó , còn thằng cha mà tiếp tục throw error nữa thì n tiếp tục bay lên thằng ông nội , thằng ông nội catch thì duwfg, còn ong nọi throw tiếp thì lại đi tiếp lên ông cố cứ như v .....
+
+## TREE SHAKING
+
+### Import and Export
+
+> cả import và export đều có 2 dạng đó là _named_ và _default_
+
+- NAME : là mình **export function abc** riêng từng hàm các kiểu , rồi mình import thì **import {} from 'abc.js'**
+  => tương tự như 2 cái game
+
+- DEFAULT : là tương tự như cái postApi , mình truyền các cái hàm mình cần export vào 1 cái object bao hết, sau đó mình export default cái tên object đó ra. Import thì k cần dùng dấu ngoặc {} nữa.
+
+### Kĩ thuật Tree shaking - remove những đoạn code ko sử dụng
+
+> nếu bạn dùng export defaul thì cái nơi mà nó nhận end code , nơi mà nó import cái code đó vào sẽ ngầm nhận luôn tất cả đống code mà bạn đã viết trong file export default mặc dù bạn ko có sử dụng hết nó
+
+> đối với _name export_ - export từng hàm n sẽ giúp mình trong việc tree shaking - loại bỏ những đoạn code ko sử dụng.
+> Mình lấy , import hàm nào , n sẽ đưa hàm đó cho mình dùng mà thôi

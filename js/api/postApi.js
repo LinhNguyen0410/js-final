@@ -8,7 +8,7 @@ const postApi = {
 
     return axiosClient.get(url, { params: params });
 
-    // key là params và value là object params ở tham số đầu vào,key và value giống nhau nên mình có thể chỉ viết tắt 1 chữ params thôi cduoc
+    //  { params: params } : key là params và value là object params ở tham số đầu vào,key và value giống nhau nên mình có thể chỉ viết tắt 1 chữ params thôi cduoc
   },
 
   getByID(id) {
