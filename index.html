@@ -4,9 +4,14 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>Posts UI</title>
-
-    <link rel="shortcut icon" href="images/favicon.png" type="image/png" />
+    <title>Posts</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="shortcut icon" href="images/bvb-borussia-dortmund-logo-3.png" type="image/png" />
 
     <!-- Bootstrap CSS -->
     <link
@@ -77,7 +82,11 @@
           <ul class="nav justify-content-between align-items-center">
             <li class="nav-item">
               <a class="nav__link" href="">
-                <img class="nav__logo" src="images/logo.svg" alt="Logo Nordic Coder" />
+                <img
+                  class="nav__logo"
+                  src="images/logo-svietnam-travel.png"
+                  alt="Logo Post Travel"
+                />
               </a>
             </li>
 
@@ -97,9 +106,9 @@
         <div class="carousel-inner">
           <div class="carousel-item active">
             <img
-              src="https://i.picsum.photos/id/1025/4951/3301.jpg?hmac=_aGh5AtoOChip_iaMo8ZvvytfEojcgqbCH7dzaz-H8Y"
+              src="https://i.picsum.photos/id/133/2742/1828.jpg?hmac=0X5o8bHUICkOIvZHtykCRL50Bjn1N8w1AvkenF7n93E"
               class="d-block w-100"
-              alt="dog"
+              alt="car"
             />
           </div>
           <div class="carousel-item">
@@ -147,13 +156,24 @@
           <span class="visually-hidden">Next</span>
         </button>
       </div>
-
+      <!-- Input search -->
+      <div class="input-group mt-5 post-input">
+        <div class="form-outline w-50">
+          <input
+            type="search"
+            id="form1"
+            class="form-control p-2 search-post"
+            placeholder="Enter key word to search..."
+          />
+        </div>
+      </div>
+      <!-- Input search -->
       <section class="posts-section">
         <div class="container">
           <h1 class="with-underline text-center">Latest posts</h1>
 
           <!-- Posts list -->
-          <ul id="postsList" class="row posts-list justify-content-center">
+          <ul id="postsList" class="row posts-list justify-content-center ps-0">
             <!-- <li class="col-12 col-md-6 col-lg-4">
               <div class="post-item mb-4">
                 <div class="card">
@@ -194,18 +214,18 @@
 
           <!-- Posts pagination -->
           <nav class="posts-nav" aria-label="Posts navigation">
-            <ul hidden id="postsPagination" class="pagination justify-content-center">
+            <ul id="pagination" class="pagination justify-content-center">
               <li class="page-item">
                 <a class="page-link" href="#" aria-label="Previous">
-                  <span aria-hidden="true">&laquo;</span>
+                  <span aria-hidden="true"> &laquo; Prev</span>
                 </a>
               </li>
-              <li class="page-item"><a class="page-link" href="#">1</a></li>
+              <!-- <li class="page-item"><a class="page-link" href="#">1</a></li>
               <li class="page-item"><a class="page-link" href="#">2</a></li>
-              <li class="page-item"><a class="page-link" href="#">3</a></li>
+              <li class="page-item"><a class="page-link" href="#">3</a></li> -->
               <li class="page-item">
                 <a class="page-link" href="#" aria-label="Next">
-                  <span aria-hidden="true">&raquo;</span>
+                  <span aria-hidden="true"> Next &raquo; </span>
                 </a>
               </li>
             </ul>
