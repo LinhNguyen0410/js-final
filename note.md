@@ -77,3 +77,5 @@ _thứ tự n như sau : main.js <- postApi.js <- axiosClient_
 > Mình lấy , import hàm nào , n sẽ đưa hàm đó cho mình dùng mà thôi
 
 ### để xử lí format ngày tháng mình dùng thư viện momentjs -> dayjs
+
+## promise always is value truthy

@@ -16,18 +16,18 @@ function renderPostDetails(post) {
   );
 
   const postHeroImage = document.getElementById('postHeroImage');
-  if (postHeroImage) postHeroImage.style.backgroundImage = `url(${post.imageUrl})`;
+  if (postHeroImage) {
+    postHeroImage.style.backgroundImage = `url(${post.imageUrl})`;
 
-  postHeroImage.addEventListener('error', () => {
-    postHeroImage.style.backgroundImage = url(
-      'https://via.placeholder.com/1368x400?text= Image load failed'
-    );
-  });
+    postHeroImage.addEventListener('error', () => {
+      postHeroImage.style.backgroundImage = `url('https://media.tadicdn.com/media/image/id/6008d95f3f2038db398b45ce.png')`;
+    });
+  }
 
   const editBtn = document.getElementById('goToEditPageLink');
   if (!editBtn) return;
   editBtn.href = `/add-edit-post.html?id=${post.id}`;
-  editBtn.innerHTML = '<i class="far fa-edit" style="color: red"></i> Edit Post';
+  editBtn.innerHTML = '<i class="far fa-edit" style="color: #3c3aaa"></i> Edit Post';
 }
 
 (async () => {
@@ -37,6 +37,7 @@ function renderPostDetails(post) {
     prevSelector: 'button[data-id="previous"]',
     nextSelector: 'button[data-id="next"]',
   });
+
   //.. get post id from url params
   //.. call API fetch post detail API
   //.. render post detail

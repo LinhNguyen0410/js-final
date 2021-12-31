@@ -1,11 +1,11 @@
 import postApi from './api/postApi';
-import { renderPostList, renderPagination, initPagination, initSearchPost } from './utils';
+import { renderPostList, renderPagination, initPagination, initSearchPost, toast } from './utils';
 
 async function handleFilterChange(filterName, filterValue) {
   try {
     // update query params up to url
     const url = new URL(window.location);
-    url.searchParams.set(filterName, filterValue);
+    if (filterName) url.searchParams.set(filterName, filterValue);
 
     // reset back page 1 when needed
     if (filterName === 'title_like') url.searchParams.set('_page', 1);
@@ -20,6 +20,24 @@ async function handleFilterChange(filterName, filterValue) {
   }
 }
 
+function registerPostDeleteEvent() {
+  const myModal = document.querySelector('#myModal');
+  const agreeButton = myModal.querySelector('#agree-delete');
+  document.addEventListener('post-delete', (event) => {
+    try {
+      agreeButton.addEventListener('click', async () => {
+        const dataPost = event.detail;
+        await postApi.remove(dataPost.id);
+        await handleFilterChange();
+        toast.success('Post deleted...');
+      });
+    } catch (error) {
+      console.log('failed when remove post...');
+      toast.error('Can not delete post.Please try again.');
+    }
+  });
+}
+
 (async () => {
   try {
     const url = new URL(window.location);
@@ -31,6 +49,8 @@ async function handleFilterChange(filterName, filterValue) {
     const queryParams = url.searchParams;
 
     //attach event
+    registerPostDeleteEvent();
+
     initPagination({
       elementId: 'pagination',
       defaultParams: queryParams,
@@ -43,9 +63,13 @@ async function handleFilterChange(filterName, filterValue) {
     });
 
     // respons return obj with 2 keys is data and pagination => using desctructuring
-    const { data, pagination } = await postApi.getAll(queryParams);
-    renderPostList('postList', data);
-    renderPagination('pagination', pagination);
+    /*
+     const { data, pagination } = await postApi.getAll(queryParams);
+     renderPostList('postList', data);
+     renderPagination('pagination', pagination);
+    */
+    handleFilterChange();
+    // trong ham nay co goi doan code tren roi , neu co truyen filterName vao thi no se set lai url , ko truyen thi no goi api render
   } catch (error) {
     console.log('get all failed', error);
   }

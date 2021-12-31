@@ -1,4 +1,4 @@
-import { setTextContent, textTruncate } from './common';
+import { setTextContent, textTruncate, showModal } from './common';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 
@@ -28,7 +28,7 @@ export function createPostElement(postItem) {
   setTextContent(liElement, '[data-id = "author"]', postItem.author);
 
   // calculating time  and set in span element - using dayjs library
-  const timeHandlePost = dayjs(postItem.updateAt).fromNow();
+  const timeHandlePost = dayjs(postItem.updatedAt).format('DD/MM/YYYY HH:mm');
   setTextContent(liElement, '[data-id = "timeSpan"]', `- ${timeHandlePost}`);
   //https://day.js.org/docs/en/installation/node-js
 
@@ -37,7 +37,8 @@ export function createPostElement(postItem) {
     thumbnailElement.src = postItem.imageUrl;
     // if url of image when load appear error , change image to default ( placeholder image )
     thumbnailElement.addEventListener('error', () => {
-      thumbnailElement.src = 'https://via.placeholder.com/1368x400?text= Image load failed';
+      thumbnailElement.src =
+        'https://media.tadicdn.com/media/image/id/6008d95f3f2038db398b45ce.png';
     });
   }
 
@@ -45,12 +46,56 @@ export function createPostElement(postItem) {
 
   //.. get div element inside LI post -> first element of LI post
   const divPostItem = liElement.firstElementChild;
+
   //.. attach click event for div element and redirect go to post detail : window.location.assign(`url + id post`)
   if (!divPostItem) return;
-  divPostItem.addEventListener('click', () => {
+  divPostItem.addEventListener('click', (event) => {
+    // will ignore when clicked into menu contain edit button
+    // tức là nếu mình click bất cứ cái gì trong cái phần menu trên card thì đều bỏ qua, k redirect sang detail.
+    // way 2
+    const menu = liElement.querySelector('[data-id="menu"]');
+    if (menu && menu.contains(event.target)) return;
+
     window.location.assign(`/post-details.html?id=${postItem.id}`);
   });
 
+  //... attact even for edit button in card item
+  const editButton = liElement.querySelector('[data-id= "edit"]');
+  if (editButton) {
+    editButton.addEventListener('click', (event) => {
+      // button đang bị ảnh hưởng bởi bubbling nên click nó vẫn sẻ redirect sang trang post-detail
+      // - how to prevent ?
+      // way 1 : event.stopPropagation();
+      // way 2 : see above..
+      window.location.assign(`/add-edit-post.html?id=${postItem.id}`);
+    });
+  }
+
+  //... attact even for remove button and modal in card item
+  const myModal = document.getElementById('myModal');
+  const modal = new bootstrap.Modal(myModal);
+  if (!myModal || !modal) return;
+  const removeButton = liElement.querySelector('[data-id= "remove"]');
+  if (removeButton) {
+    removeButton.addEventListener('click', (event) => {
+      // show modal
+      modal.show();
+      // create custom event and listen in parent file (home)
+      const customEvent = new CustomEvent('post-delete', {
+        bubbles: true, // allow bubbles to document
+        detail: postItem, // data is postItem => will bubbles it to home.js
+      });
+      removeButton.dispatchEvent(customEvent);
+    });
+
+    // ...hide modal
+    ['cancel-icon', 'close-delete', 'agree-delete'].forEach((elementID) => {
+      const element = document.getElementById(elementID);
+      element.addEventListener('click', () => {
+        modal.hide();
+      });
+    });
+  }
   return liElement;
 }
 // -------
