@@ -4,3 +4,5 @@ export * from './post';
 export * from './pagination';
 export * from './search';
 export * from './lightbox';
+export * from './postForm';
+export * from './toast';

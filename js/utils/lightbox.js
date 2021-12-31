@@ -1,16 +1,9 @@
+import { showModal } from './common';
 //..handle click for all imgs
 //..img click -> find img same
 //..determined index of img
 //..show modal
 //..handle click next - prev
-
-function showModal(modalElement) {
-  //.. using bootstrap
-  if (!window.bootstrap) return;
-
-  const modal = new bootstrap.Modal(modalElement);
-  if (modal) modal.show();
-}
 
 export function registerLightBox({ modalID, imageSelector, prevSelector, nextSelector }) {
   const modalElement = document.getElementById(modalID);
@@ -20,6 +13,9 @@ export function registerLightBox({ modalID, imageSelector, prevSelector, nextSel
   const prevBtn = modalElement.querySelector(prevSelector);
   const nextBtn = modalElement.querySelector(nextSelector);
   if (!imageElement || !prevBtn || !nextBtn) return;
+
+  // check modal registered or not
+  if (modalElement.dataset.registered) return;
 
   let imgList = [];
   let currentIndex = 0;
@@ -41,11 +37,26 @@ export function registerLightBox({ modalID, imageSelector, prevSelector, nextSel
 
     // show image for index above
     showImageAtIndex(currentIndex);
+
     // when click IMG TAG as above show modal album
     showModal(modalElement);
   });
 
-  prevBtn.addEventListener('click', () => {});
+  prevBtn.addEventListener('click', () => {
+    // get currentIndex and ImgList
+    currentIndex = (currentIndex - 1 + imgList.length) % imgList.length;
+    /*
+      giả sử currenIndex đang là 1 , nút prev thì mình sẽ giảm đi 1 tức là currenIndex - 1 bằng 0 sau đó mình đi chia dư cho độ dài mảng chứa hình 0 % 3 , vì khi mình chia dư thì chắc chắn kết quả có được điều sẽ nhỏ hơn hoặc bằng độ dài của mảng đó (0 % 3 = 0) => với nút prev thì mình sẽ + thêm độ dài của mảng để trang trường hợp nó về số âm.
+     */
 
-  nextBtn.addEventListener('click', () => {});
+    showImageAtIndex(currentIndex);
+  });
+
+  nextBtn.addEventListener('click', () => {
+    currentIndex = (currentIndex + 1) % imgList.length;
+
+    showImageAtIndex(currentIndex);
+  });
+  // ngăn chặn việc gọi hàm register lightbox quá nhiều lần
+  modalElement.dataset.registered = 'true';
 }
